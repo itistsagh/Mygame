@@ -26,26 +26,6 @@ module.exports = class Eater extends LivingCreature {
         return super.chooseCell(tiv1);
     }
 
-    // chooseCell2(tiv1, tiv2) {
-    //     this.getNewCoordinates();
-    //     let found = [];
-    //     for (let i in this.directions) {
-    //         let x = this.directions[i][0];
-    //         let y = this.directions[i][1];
-    //         if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-    //             if (matrix[y][x] == tiv1) {
-    //                 found.push(this.directions[i]);
-    //             }
-    //             else if (matrix[y][x] == tiv1 || matrix[y][x] == tiv2) {
-    //                 found.push(this.directions[i]);
-    //             }
-    //         }
-    //     }
-    //     return found;
-
-    // }
-
-
     move() {
         var emptyCells = super.chooseCell(0,1);
 		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
@@ -98,7 +78,7 @@ module.exports = class Eater extends LivingCreature {
     mul() {
         var emptyCells = super.chooseCell(0,1);
 		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        if (newCell && this.energy >= 12) {
+        if (newCell && this.energy >= 10) {
             var newX = newCell[0];
 			var newY = newCell[1];
 			matrix[newY][newX] = 3;

@@ -31,13 +31,12 @@ function rand(min, max) {
 for (let i = 0; i < n; i++) {
     matrix[i] = [];
     for (let j = 0; j < n; j++) {
-        matrix[i][j] = Math.floor(rand(0, 5))
+        matrix[i][j] = Math.floor(rand(0, 4))
         
     }  
 }
 
 io.sockets.emit("send matrix", matrix)
-
 
 
 function createObject() {
@@ -57,7 +56,7 @@ function createObject() {
             }
             else if (matrix[y][x] == 4) {
                 matrix[y][x] = 4
-                BlueArr.push(new Blue(x, y, 2))
+                BlueArr.push(new Blue(x, y, 4))
             }
         }
     }
@@ -78,13 +77,14 @@ function game() {
         EaterArr[i].die();
     }
     for (var i in BlueArr) {
+        BlueArr[i].fill();
         BlueArr[i].mul();
         
     }
     io.sockets.emit("send matrix", matrix);
 }
 
-setInterval(game, 1000)
+setInterval(game, 300)
 
 
 function kill() {
@@ -139,6 +139,6 @@ setInterval(function() {
     statistics.grass = grassArr.length;
     statistics.grassEater = grassEaterArr.length;
     fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
-        console.log("send")
+        // console.log("send")
     })
 },1000)

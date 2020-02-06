@@ -3,11 +3,7 @@ let LivingCreature=require('./LivingCreature')
 module.exports = class Blue extends LivingCreature{
 
     constructor(x, y, index){
-        super(10, 10, index);
-        this.directions = [];
-    }
-
-    getNewCoordinates() {
+        super(x, y, index);
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -27,6 +23,12 @@ module.exports = class Blue extends LivingCreature{
             [this.x + 2, this.y + 2]
         ];
     }
+   fill(){
+    for (var y = 0; y < this.directions.length; y++) {
+        for (var x = 0; x < this.directions[y].length; x++) {
+          matrix[y][x] = 4;
+       }
+}}
 
     chooseCell(tiv1) {
         this.getNewCoordinates();

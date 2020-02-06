@@ -7,10 +7,12 @@ function setup() {
     background("acacac");
 }
 
+
 function nkarel(matrix) {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[0].length; x++) {
             var obj = matrix[y][x];
+            matrix[25][25]==4;
             if (obj == 0){
                 fill("grey")
             }
@@ -22,14 +24,16 @@ function nkarel(matrix) {
             }
             else if (obj == 3) {
                 fill("red");
+            } 
+               
+            else if ( matrix[25][25] = 4)
+                    fill("blue");
             }
-            else if (obj == 4) {
-                fill("blue");
-            }
+        
             rect(x * side, y * side, side, side);
         }
     }
-}
+
 
         socket.on('send matrix', nkarel)
  
