@@ -1,8 +1,13 @@
-let LivingCreature=require('./LivingCreature')
+
+let LivingCreature = require('./LivingCreature')
+ function rand(min, max) {
+            return Math.random() * (max - min) + min;
+        }
 module.exports = class Eater extends LivingCreature {
-    constructor(x, y, index){
+    constructor(x, y, index) {
         super(x, y, index);
-        this.energy = 8;}
+        this.energy = 8;
+    }
     getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -20,30 +25,35 @@ module.exports = class Eater extends LivingCreature {
         this.getNewCoordinates();
         return super.chooseCell(tiv1);
     }
- 
-    chooseCell2(tiv1, tiv2) {
-        this.getNewCoordinates();
-        let found = [];
-        for (let i in this.directions) {
-            let x = this.directions[i][0];
-            let y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == tiv1) {
-                    found.push(this.directions[i]);
-                }
-                else if (matrix[y][x] == tiv1 || matrix[y][x] == tiv2) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
 
-    }
+    // chooseCell2(tiv1, tiv2) {
+    //     this.getNewCoordinates();
+    //     let found = [];
+    //     for (let i in this.directions) {
+    //         let x = this.directions[i][0];
+    //         let y = this.directions[i][1];
+    //         if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
+    //             if (matrix[y][x] == tiv1) {
+    //                 found.push(this.directions[i]);
+    //             }
+    //             else if (matrix[y][x] == tiv1 || matrix[y][x] == tiv2) {
+    //                 found.push(this.directions[i]);
+    //             }
+    //         }
+    //     }
+    //     return found;
+
+    // }
+
+
     move() {
-        var newCell = random(this.chooseCell2(0, 1));
+        var emptyCells = super.chooseCell(0,1);
+		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
         if (newCell) {
+
             var newX = newCell[0];
             var newY = newCell[1];
+
             if (matrix[newY][newX] == 0) {
                 matrix[this.y][this.x] = 0;
                 matrix[newY][newX] = this.index;
@@ -56,35 +66,44 @@ module.exports = class Eater extends LivingCreature {
             }
             this.y = newY;
             this.x = newX;
-
         }
 
     }
+
+
     eat() {
-        var eater = random(this.chooseCell(2));
+     
+        var grassCells = super.chooseCell(1);
+		var eater = grassCells[Math.floor(Math.random() * grassCells.length)];
         if (eater) {
+
             var newX = eater[0];
             var newY = eater[1];
-            matrix[newY][newX] = this.index;
+            matrix[newY][newX] = matrix[this.y][this.x];
             matrix[this.y][this.x] = 0;
-            for (var i in GrassEaterArr) {
-                if (newX == GrassEaterArr[i].x && newY == GrassEaterArr[i].y) {
-                    GrassEaterArr.splice(i, 1);
-                    break;
+            for (var i in grassEaterArr) {
+                if (grassEaterArr[i].x == newX && grassEaterArr[i].y == newY ) {
+                    grassEaterArr.splice(i, 1);
+                    // break;
                 }
             }
             this.x = newX;
             this.y = newY;
-            this.energy += 4;
+            this.energy += 2;
         }
     }
+
+
+
     mul() {
-        var newCell = random(this.chooseCell(0))
+        var emptyCells = super.chooseCell(0,1);
+		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         if (newCell && this.energy >= 12) {
-            var eater = new Eater(newCell[0], newCell[1], this.index);
-            EaterArr.push(eater);
-            matrix[newCell[1]][newCell[0]] = this.index;
-            this.energy = 10;
+            var newX = newCell[0];
+			var newY = newCell[1];
+			matrix[newY][newX] = 3;
+			EaterArr.push(new Eater(newX, newY, 3))
+            this.energy = 2;
 
         }
     }

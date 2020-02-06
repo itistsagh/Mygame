@@ -23,6 +23,9 @@ function nkarel(matrix) {
             else if (obj == 3) {
                 fill("red");
             }
+            else if (obj == 4) {
+                fill("blue");
+            }
             rect(x * side, y * side, side, side);
         }
     }

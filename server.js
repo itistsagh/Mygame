@@ -14,6 +14,7 @@ server.listen(3001);
 grassArr = [];
 grassEaterArr = [];
 EaterArr=[];
+BlueArr=[];
 matrix = [];
 
 var n = 50;
@@ -21,6 +22,7 @@ var n = 50;
 Grass = require("./Grass");
 GrassEater = require("./GrassEater");
 Eater = require("./Eater");
+Blue = require("./Blue");
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
@@ -29,7 +31,7 @@ function rand(min, max) {
 for (let i = 0; i < n; i++) {
     matrix[i] = [];
     for (let j = 0; j < n; j++) {
-        matrix[i][j] = Math.floor(rand(0, 3))
+        matrix[i][j] = Math.floor(rand(0, 5))
         
     }  
 }
@@ -53,9 +55,9 @@ function createObject() {
                 matrix[y][x] = 3
                 EaterArr.push(new Eater(x, y, 3))
             }
-            else if (matrix[y][x] == 2) {
-                matrix[y][x] = 2
-                grassEaterArr.push(new GrassEater(x, y, 2))
+            else if (matrix[y][x] == 4) {
+                matrix[y][x] = 4
+                BlueArr.push(new Blue(x, y, 2))
             }
         }
     }
@@ -72,6 +74,12 @@ function game() {
     for (var i in EaterArr) {
         EaterArr[i].move();
         EaterArr[i].eat();
+        EaterArr[i].mul();
+        EaterArr[i].die();
+    }
+    for (var i in BlueArr) {
+        BlueArr[i].mul();
+        
     }
     io.sockets.emit("send matrix", matrix);
 }
