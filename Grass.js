@@ -1,7 +1,7 @@
 let LivingCreature = require('./LivingCreature')
 
-module.exports = class Grass extends LivingCreature{
-    
+module.exports = class Grass extends LivingCreature {
+
     mul() {
         this.multiply++;
         if (this.multiply >= 5) {
@@ -14,6 +14,22 @@ module.exports = class Grass extends LivingCreature{
                 grassArr.push(new Grass(x, y, 1))
                 this.multiply = 0;
             }
+            if (weath == "winter") {
+                this.energy -= 2;
+                this.multiply -= 2;
+            }
+            if (weath == "spring") {
+                this.energy += 5;
+                this.multiply += 5;
+            }
+            if (weath == "summer") {
+                this.energy += 3;
+                this.multiply += 3;
+            }
+            if (weath == "autumn") {
+                this.energy--;
+                this.multiply--;
         }
     }
+}
 }

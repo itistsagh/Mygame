@@ -54,6 +54,7 @@ module.exports = class GrassEater extends LivingCreature {
 
 			if (this.energy >= 12) {
 				this.mul();
+				this.energy = 8
 			}
 
 		}
@@ -73,6 +74,15 @@ module.exports = class GrassEater extends LivingCreature {
 			grassEaterArr.push(new GrassEater(newX, newY, 2))
 			this.energy = 6;
 		}
+		if (weath == "winter") {
+			this.energy -= 4;
+			this.multiply -= 4;
+		}
+		if (weath == "summer") {
+			this.energy += 2;
+			this.multiply += 2;
+		}
+
 	}
 
 	die() {
@@ -83,7 +93,4 @@ module.exports = class GrassEater extends LivingCreature {
 			}
 		}
 	}
-
-
-
 }

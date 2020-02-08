@@ -26,8 +26,13 @@ module.exports = class Eater extends LivingCreature {
         return super.chooseCell(tiv1);
     }
 
+    chooseCell2(tiv1,tiv2) {
+        this.getNewCoordinates();
+        return super.chooseCel2(tiv1,tiv2);
+    }
+
     move() {
-        var emptyCells = super.chooseCell(0,1);
+        var emptyCells = super.chooseCell2(0,1);
 		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
         if (newCell) {
 
@@ -36,12 +41,12 @@ module.exports = class Eater extends LivingCreature {
 
             if (matrix[newY][newX] == 0) {
                 matrix[this.y][this.x] = 0;
-                matrix[newY][newX] = this.index;
+                matrix[newY][newX] = 3;
                 this.energy -= 2;
             }
             else if (matrix[newY][newX] == 1) {
                 matrix[this.y][this.x] = 1;
-                matrix[newY][newX] = this.index;
+                matrix[newY][newX] = 3;
                 this.energy--;
             }
             this.y = newY;
@@ -53,10 +58,9 @@ module.exports = class Eater extends LivingCreature {
 
     eat() {
      
-        var grassCells = super.chooseCell(1);
+        var grassCells = super.chooseCell(2);
 		var eater = grassCells[Math.floor(Math.random() * grassCells.length)];
         if (eater) {
-
             var newX = eater[0];
             var newY = eater[1];
             matrix[newY][newX] = matrix[this.y][this.x];
@@ -64,18 +68,27 @@ module.exports = class Eater extends LivingCreature {
             for (var i in grassEaterArr) {
                 if (grassEaterArr[i].x == newX && grassEaterArr[i].y == newY ) {
                     grassEaterArr.splice(i, 1);
-                    // break;
+                    break;
                 }
             }
             this.x = newX;
             this.y = newY;
-            this.energy += 2;
+            this.energy += 5;
         }
     }
 
 
 
     mul() {
+        if(weath == "winter"){
+            if (newCell && this.energy >= 20) {
+                var newX = newCell[0];
+                var newY = newCell[1];
+                matrix[newY][newX] = 3;
+                EaterArr.push(new Eater(newX, newY, 3))
+                this.energy = 3;}
+        }
+        else{
         var emptyCells = super.chooseCell(0,1);
 		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         if (newCell && this.energy >= 10) {
@@ -84,7 +97,7 @@ module.exports = class Eater extends LivingCreature {
 			matrix[newY][newX] = 3;
 			EaterArr.push(new Eater(newX, newY, 3))
             this.energy = 2;
-
+}
         }
     }
     die() {

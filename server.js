@@ -9,16 +9,17 @@ app.use(express.static("."));
 app.get('/', function (req, res) {
     res.redirect('index.html');
 });
-server.listen(3001);
+server.listen(3000);
 
 grassArr = [];
 grassEaterArr = [];
-EaterArr=[];
-BlueArr=[];
+EaterArr = [];
+BlueArr = [];
 matrix = [];
 
 var n = 50;
 
+weath = "winter";
 Grass = require("./Grass");
 GrassEater = require("./GrassEater");
 Eater = require("./Eater");
@@ -39,6 +40,7 @@ for (let i = 0; i < n; i++) {
 io.sockets.emit("send matrix", matrix)
 
 
+
 function createObject() {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
@@ -54,8 +56,8 @@ function createObject() {
                 matrix[y][x] = 3
                 EaterArr.push(new Eater(x, y, 3))
             }
-            else if (matrix[y][x] == 4) {
-                matrix[y][x] = 4
+            else if (matrix[25][25] = 4) {
+                matrix[25][25] = 4
                 BlueArr.push(new Blue(x, y, 4))
             }
         }
@@ -71,20 +73,18 @@ function game() {
         grassEaterArr[i].eat();
     }
     for (var i in EaterArr) {
-        EaterArr[i].move();
-        EaterArr[i].eat();
-        EaterArr[i].mul();
-        EaterArr[i].die();
+       EaterArr[i].move();
+       EaterArr[i].eat();
+       EaterArr[i].mul();
+       EaterArr[i].die();
     }
     for (var i in BlueArr) {
-        BlueArr[i].fill();
-        BlueArr[i].mul();
-        
+        BlueArr[i].mul()
     }
     io.sockets.emit("send matrix", matrix);
 }
 
-setInterval(game, 300)
+setInterval(game, 1000)
 
 
 function kill() {
@@ -124,6 +124,29 @@ function addGrassEater() {
 }
 
 
+///new
+
+
+
+function weather() {
+    if (weath == "winter") {
+        weath = "spring"
+    }
+    else if (weath == "spring") {
+        weath = "summer"
+    }
+    else if (weath == "summer") {
+        weath = "autumn"
+    }
+    else if (weath == "autumn") {
+        weath = "winter"
+    }
+    io.sockets.emit('weather', weath)
+}
+setInterval(weather, 5000);
+
+
+////
 
 io.on('connection', function (socket) {
     createObject();
@@ -139,6 +162,6 @@ setInterval(function() {
     statistics.grass = grassArr.length;
     statistics.grassEater = grassEaterArr.length;
     fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
-        // console.log("send")
+        console.log("send")
     })
 },1000)
