@@ -6,7 +6,7 @@ let LivingCreature = require('./LivingCreature')
 module.exports = class Eater extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index);
-        this.energy = 8;
+        this.energy = 3;
     }
     getNewCoordinates() {
         this.directions = [
@@ -73,7 +73,7 @@ module.exports = class Eater extends LivingCreature {
             }
             this.x = newX;
             this.y = newY;
-            this.energy += 5;
+            this.energy += 3;
         }
     }
 
@@ -81,7 +81,7 @@ module.exports = class Eater extends LivingCreature {
 
     mul() {
         if(weath == "winter"){
-            if (newCell && this.energy >= 20) {
+            if (newCell && this.energy >= 25) {
                 var newX = newCell[0];
                 var newY = newCell[1];
                 matrix[newY][newX] = 3;

@@ -57,8 +57,10 @@ function createObject() {
                 EaterArr.push(new Eater(x, y, 3))
             }
             else if (matrix[25][25] = 4) {
-                matrix[25][25] = 4
-                BlueArr.push(new Blue(x, y, 4))
+                matrix[25][25] = 4;
+                BlueArr.push(new Blue(25, 25, 4));
+                BlueArr.push(new Blue(10, 10, 4));
+                BlueArr.push(new Blue(40, 40, 4));
             }
         }
     }
@@ -79,12 +81,12 @@ function game() {
        EaterArr[i].die();
     }
     for (var i in BlueArr) {
-        BlueArr[i].mul()
+        BlueArr[i].mul();
     }
     io.sockets.emit("send matrix", matrix);
 }
 
-setInterval(game, 1000)
+setInterval(game, 800)
 
 
 function kill() {
@@ -122,9 +124,18 @@ function addGrassEater() {
     }
     io.sockets.emit("send matrix", matrix);
 }
+function addEater() {
+    for (var i = 0; i < 7; i++) {   
+    var x = Math.floor(Math.random() * matrix[0].length)
+    var y = Math.floor(Math.random() * matrix.length)
+        if (matrix[y][x] == 0) {
+            matrix[y][x] = 3
+            EaterArr.push(new Eater(x, y, 3))
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
 
-
-///new
 
 
 
@@ -143,16 +154,17 @@ function weather() {
     }
     io.sockets.emit('weather', weath)
 }
-setInterval(weather, 5000);
+setInterval(weather, 6000);
 
 
-////
+
 
 io.on('connection', function (socket) {
     createObject();
     socket.on("kill", kill);
     socket.on("add grass", addGrass);
     socket.on("add grassEater", addGrassEater);
+    socket.on("add Eater", addEater);
 });
 
 
@@ -161,6 +173,8 @@ var statistics = {};
 setInterval(function() {
     statistics.grass = grassArr.length;
     statistics.grassEater = grassEaterArr.length;
+    statistics.Eater = EaterArr.length;
+    statistics.Blue = BlueArr.length;
     fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
         console.log("send")
     })
